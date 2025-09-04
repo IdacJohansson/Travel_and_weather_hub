@@ -1,1 +1,49 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+body {
+  background-color: black;
+}
+
+.main-container {
+  @apply flex flex-col items-center min-h-screen w-full gap-5;
+}
+
+.header {
+  @apply bg-black text-white flex flex-col items-center p-4 shadow-lg w-full h-[150px];
+}
+
+.header-wrapper {
+  @apply flex w-full justify-between;
+}
+
+.logo {
+  @apply h-[50px] w-[50px] ml-2;
+}
+
+.header-title {
+  @apply text-4xl font-semibold text-center flex-1 mr-5;
+}
+
+.search-container {
+  @apply mt-4 w-full flex justify-center;
+}
+
+.section-one {
+  @apply m-2.5 flex justify-evenly items-center w-full p-2.5 gap-5;
+}
+
+.section-one-wrapper {
+  @apply flex justify-center items-center;
+}
+
+.card {
+  @apply bg-white text-black rounded-2xl p-4 flex gap-4 w-[860px] h-[300px];
+}
+
+.card-content {
+  @apply flex flex-col gap-2 items-center justify-center w-[830px] h-[270px];
+}
+
+.section-two {
+  @apply flex justify-evenly items-center w-full min-h-[400px] p-2.5;
+}
