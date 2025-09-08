@@ -16,7 +16,6 @@ export const useTrafficIncidentStore = create<TrafficState>()((set, get) => {
       const { latitude, longitude } = location;
 
       const data = await fetchTrafficIncidentData(latitude, longitude);
-      console.log("Traffic API response:", data);
       const situations = data.RESPONSE.RESULT[0]?.Situation || [];
 
       const extractedUpdates: TrafficUpdateInterface[] = situations

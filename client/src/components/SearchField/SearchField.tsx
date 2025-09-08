@@ -3,21 +3,25 @@ import { GEO_URL } from "../../services/config";
 import { useState, useEffect } from "react";
 import { useLocationStore } from "../../store/useLocationStore";
 import { useTrafficIncidentStore } from "../../store/useTrafficIncidentStore";
+import { useWeatherStore } from "../../store/useWeatherStore";
 
 const SearchField = () => {
   const { fetchTrafficIncidents } = useTrafficIncidentStore();
+  const { fetchWeatherByLocation } = useWeatherStore();
   const { location, setLocation, address, setAddress } = useLocationStore();
   const [query, setQuery] = useState("");
+
+  const URL = import.meta.env.VITE_GEO_URL || GEO_URL;
 
   useEffect(() => {
     if (location) {
       fetchTrafficIncidents();
+      fetchWeatherByLocation();
     }
-  }, [location, fetchTrafficIncidents]);
+  }, [location, fetchTrafficIncidents, fetchWeatherByLocation]);
 
   const handleSearch = async () => {
     if (!query.trim()) {
-      // if no city → use geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           ({ coords: { latitude, longitude } }) => {
@@ -29,10 +33,11 @@ const SearchField = () => {
       return;
     }
 
-    // if city → geocoding
     try {
-      const response = await fetch(`${GEO_URL}?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`${URL}?q=${encodeURIComponent(query)}`);
+
       const data = await response.json();
+      console.log(data);
 
       if (data?.results?.length > 0) {
         const { lat, lng } = data.results[0].geometry.location;

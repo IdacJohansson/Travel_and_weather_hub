@@ -2,6 +2,7 @@ import "../styles/global.css";
 import Logo from "../assets/favicon.png";
 import SearchField from "../components/SearchField/SearchField";
 import TrafficIncidents from "../components/TrafficIncidents/TrafficIncidents";
+import Weather from "../components/Weather/Weather";
 
 const Dashboard = () => {
   return (
@@ -22,7 +23,7 @@ const Dashboard = () => {
             <div className="card-content">{/* <Transport /> */}</div>
           </div>
         </div>
-        {/* <Weather/> */}
+        <Weather/>
       </div>
 
       <div className="section-two">
