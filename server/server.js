@@ -12,6 +12,8 @@ const GEO_KEY = process.env.GEO_KEY;
 const GEO_URL = process.env.GEO_URL;
 const TRAFFIC_API_URL = process.env.TRAFFIC_API_URL;
 const TRAFFIC_API_KEY = process.env.TRAFFIC_API_KEY;
+const WEATHER_API_URL = process.env.WEATHER_API_URL;
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 
 app.get("/api/geocode", async (req, res) => {
   const { q } = req.query;
@@ -65,6 +67,27 @@ app.get("/traffic-situations", async (req, res) => {
   } catch (error) {
     console.error("Error fetching traffic situations:", error);
     res.status(500).send("Failed fetching data");
+  }
+});
+
+app.get("/api/weather", async (req, res) => {
+  const { lat, lon } = req.query;
+  if (!lat || !lon) return res.status(400).send("Missing coordinates");
+
+  try {
+    const response = await axios.get(WEATHER_API_URL, {
+      params: {
+        lat,
+        lon,
+        units: "metric",
+        appid: WEATHER_API_KEY,
+      },
+    });
+    console.log(response.data);
+    res.json(response.data);
+  } catch (err) {
+    console.error("Weather API error:", err);
+    res.status(500).send("Failed to fetch weather");
   }
 });
 
