@@ -37,7 +37,7 @@ body {
 }
 
 .card {
-  @apply bg-white text-black rounded-2xl p-4 flex gap-4 w-[860px] h-[300px];
+  @apply text-black rounded-2xl p-4 flex gap-4 w-[860px] h-[300px];
 }
 
 .card-content {

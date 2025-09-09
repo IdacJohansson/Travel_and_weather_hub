@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { useLocationStore } from "../../store/useLocationStore";
 import { useTrafficIncidentStore } from "../../store/useTrafficIncidentStore";
 import { useWeatherStore } from "../../store/useWeatherStore";
+import { useDepartureStore } from "../../store/useDepartureStore";
 
 const SearchField = () => {
   const { fetchTrafficIncidents } = useTrafficIncidentStore();
   const { fetchWeatherByLocation } = useWeatherStore();
+  const { fetchDepartures } = useDepartureStore();
   const { location, setLocation, address, setAddress } = useLocationStore();
   const [query, setQuery] = useState("");
 
@@ -17,8 +19,9 @@ const SearchField = () => {
     if (location) {
       fetchTrafficIncidents();
       fetchWeatherByLocation();
+      fetchDepartures();
     }
-  }, [location, fetchTrafficIncidents, fetchWeatherByLocation]);
+  }, [location, fetchTrafficIncidents, fetchWeatherByLocation, fetchDepartures]);
 
   const handleSearch = async () => {
     if (!query.trim()) {
