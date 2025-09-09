@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.leaflet-container {
+  @apply w-[480px] h-[400px] rounded-xl text-white text-center p-4;
+}

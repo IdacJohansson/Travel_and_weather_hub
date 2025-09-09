@@ -5,6 +5,8 @@ export interface TrafficUpdateInterface {
   SeverityText: string;
   CreationTime: string;
   LocationDescriptor: string;
+  lat?: number;
+  lon?: number;
 }
 
 export interface TrafficState {
