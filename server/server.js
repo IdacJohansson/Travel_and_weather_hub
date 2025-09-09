@@ -14,6 +14,9 @@ const TRAFFIC_API_URL = process.env.TRAFFIC_API_URL;
 const TRAFFIC_API_KEY = process.env.TRAFFIC_API_KEY;
 const WEATHER_API_URL = process.env.WEATHER_API_URL;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
+const RESROBOT_NEARBYSTOPS_URL = process.env.RESROBOT_API_URL_NEARBYSTOPS;
+const RESROBOT_API_URL_DEPARTURES = process.env.RESROBOT_API_URL_DEPARTURES;
+const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
 
 app.get("/api/geocode", async (req, res) => {
   const { q } = req.query;
@@ -31,7 +34,7 @@ app.get("/api/geocode", async (req, res) => {
   }
 });
 
-app.get("/traffic-situations", async (req, res) => {
+app.get("/api/traffic-situations", async (req, res) => {
   const { latitude, longitude } = req.query;
   if (!latitude || !longitude) {
     return res.status(400).send("Missing latitude or longitude parameters");
@@ -88,6 +91,60 @@ app.get("/api/weather", async (req, res) => {
   } catch (err) {
     console.error("Weather API error:", err);
     res.status(500).send("Failed to fetch weather");
+  }
+});
+
+app.get("/api/departures", async (req, res) => {
+  const { lat, lon } = req.query;
+  if (!lat || !lon) return res.status(400).send("Missing coordinates");
+  try {
+    const nearbyResponse = await axios.get(RESROBOT_NEARBYSTOPS_URL, {
+      params: {
+        originCoordLat: lat,
+        originCoordLong: lon,
+        maxNo: 3,
+        accessId: process.env.RESROBOT_API_KEY,
+      },
+    });
+
+    const stop =
+      nearbyResponse.data.stopLocationOrCoordLocation[0]?.StopLocation;
+    const extId = stop.extId;
+    console.log(` ID: ${extId}`);
+    if (!stop?.extId) return res.status(404).send("No nearby stops found");
+
+    const departuresResponse = await axios.get(RESROBOT_API_URL_DEPARTURES, {
+      params: {
+        id: extId,
+        maxJourneys: 3,
+        format: "json",
+        accessId: RESROBOT_API_KEY,
+      },
+    });
+    if (!departuresResponse.data.Departure) {
+      return res.status(404).send("No departures found for this stop");
+    }
+
+    const newDepartures = departuresResponse.data.Departure.map((dep) => ({
+      time: dep.time,
+      date: dep.date,
+      stop: dep.stop,
+      stopExtId: dep.stopExtId,
+      type: dep.type,
+      direction: dep.direction,
+      name: dep.Product[0]?.name || dep.name,
+      line: dep.Product[0]?.displayNumber || "",
+      operator: dep.Product[0]?.operator || "",
+      icon: dep.Product[0]?.icon?.res || "prod_gen",
+    }));
+
+    res.json({
+      nearbyStop: stop,
+      departures: newDepartures,
+    });
+  } catch (err) {
+    console.error("Departures API error:", err);
+    res.status(500).send("Failed to fetch departures");
   }
 });
 

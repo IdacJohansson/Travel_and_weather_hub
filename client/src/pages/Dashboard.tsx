@@ -3,6 +3,7 @@ import Logo from "../assets/favicon.png";
 import SearchField from "../components/SearchField/SearchField";
 import TrafficIncidents from "../components/TrafficIncidents/TrafficIncidents";
 import Weather from "../components/Weather/Weather";
+import Departures from "../components/Departures/Departures";
 
 const Dashboard = () => {
   return (
@@ -20,7 +21,7 @@ const Dashboard = () => {
       <div className="section-one">
         <div className="section-one-wrapper">
           <div className="card">
-            <div className="card-content">{/* <Transport /> */}</div>
+            <div className="card-content"><Departures title="DEPARTURES" /></div>
           </div>
         </div>
         <Weather/>

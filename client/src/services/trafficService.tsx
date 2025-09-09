@@ -2,7 +2,6 @@ import axios from "axios";
 import { TRAFFIC_URL } from "./config.js";
 
 const baseURL = import.meta.env.VITE_TRAFFIC_URL || TRAFFIC_URL;
-console.log(baseURL);
 
 export const fetchTrafficIncidentData = async (
   latitude: number,

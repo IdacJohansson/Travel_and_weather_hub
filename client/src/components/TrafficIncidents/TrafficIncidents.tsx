@@ -4,7 +4,7 @@ import { useLocationStore } from "../../store/useLocationStore";
 import { useTrafficIncidentStore } from "../../store/useTrafficIncidentStore";
 
 import TrafficImage from "../TrafficImage";
-import CarImg from "../../assets/white-car.png"
+import CarImg from "../../assets/white-car.png";
 
 type CardProps = {
   title: string;
@@ -24,9 +24,8 @@ const TrafficIncidents = ({ title }: CardProps) => {
   return (
     <div>
       {trafficUpdates.length > 0 ? (
-        <div className="flex w-full max-w-5xl h-[25rem] bg-raisinBlack text-white rounded-2xl">
+        <div className="flex w-full max-w-5xl h-[25rem] border-white border-1 text-white rounded-2xl">
           <div className="flex w-full">
-            {/* Vänster del */}
             <div className="flex-1 p-4 text-xs">
               <h2 className="text-lg font-bold text-center text-white">
                 {title}
@@ -34,7 +33,6 @@ const TrafficIncidents = ({ title }: CardProps) => {
 
               {trafficUpdates.map((update, index) => (
                 <div key={index} className="mt-5 mb-2 pb-2">
-                  {/* Header-rad */}
                   <div className="flex items-center justify-between h-8 px-4 bg-onyx">
                     <p className="font-bold">{update.MessageCode}</p>
                     <div className="flex gap-4">
@@ -44,8 +42,6 @@ const TrafficIncidents = ({ title }: CardProps) => {
                       <p>{new Date(update.CreationTime).toLocaleString()}</p>
                     </div>
                   </div>
-
-                  {/* Detaljer */}
                   <div className="px-4 mt-2 text-left">
                     <p>{update.Message}</p>
                     <div className="flex mt-1">
@@ -58,8 +54,6 @@ const TrafficIncidents = ({ title }: CardProps) => {
                 </div>
               ))}
             </div>
-
-            {/* Höger del med bild */}
             <div className="flex items-center justify-center w-1/4 p-4 bg-onyx rounded-r-2xl">
               <TrafficImage />
             </div>
@@ -71,7 +65,7 @@ const TrafficIncidents = ({ title }: CardProps) => {
             <div className="mb-4 pb-2">
               <div className="flex items-center justify-center h-20">
                 <img
-                  className="w-1/2 animate-pulse"
+                  className="w-1/3 animate-pulse"
                   src={CarImg}
                   alt="car-image"
                 />
