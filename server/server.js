@@ -86,7 +86,6 @@ app.get("/api/weather", async (req, res) => {
         appid: WEATHER_API_KEY,
       },
     });
-    console.log(response.data);
     res.json(response.data);
   } catch (err) {
     console.error("Weather API error:", err);
@@ -110,7 +109,6 @@ app.get("/api/departures", async (req, res) => {
     const stop =
       nearbyResponse.data.stopLocationOrCoordLocation[0]?.StopLocation;
     const extId = stop.extId;
-    console.log(` ID: ${extId}`);
     if (!stop?.extId) return res.status(404).send("No nearby stops found");
 
     const departuresResponse = await axios.get(RESROBOT_API_URL_DEPARTURES, {

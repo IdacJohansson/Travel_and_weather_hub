@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { fetchTrafficIncidentData } from "../services/trafficService";
-import type { TrafficUpdateInterface, TrafficState } from "../types/trafficTypes";
+import type {
+  TrafficUpdateInterface,
+  TrafficState,
+} from "../types/trafficTypes";
 import { useLocationStore } from "./useLocationStore";
 
 export const useTrafficIncidentStore = create<TrafficState>()((set, get) => {
@@ -20,13 +23,28 @@ export const useTrafficIncidentStore = create<TrafficState>()((set, get) => {
 
       const extractedUpdates: TrafficUpdateInterface[] = situations
         .flatMap((situation: any) =>
-          situation.Deviation.map((deviation: any) => ({
-            MessageCode: deviation.MessageCode,
-            Message: deviation.Message,
-            SeverityText: deviation.SeverityText,
-            CreationTime: deviation.CreationTime,
-            LocationDescriptor: deviation.LocationDescriptor,
-          }))
+          situation.Deviation.map((deviation: any) => {
+            const geom = deviation.Geometry?.WGS84;
+            let lat, lon;
+            if (geom) {
+              const coords = geom
+                .replace("POINT (", "")
+                .replace(")", "")
+                .split(" ");
+              lon = parseFloat(coords[0]);
+              lat = parseFloat(coords[1]);
+            }
+
+            return {
+              MessageCode: deviation.MessageCode,
+              Message: deviation.Message,
+              SeverityText: deviation.SeverityText,
+              CreationTime: deviation.CreationTime,
+              LocationDescriptor: deviation.LocationDescriptor,
+              lat,
+              lon,
+            };
+          })
         )
         .slice(0, 3);
 

@@ -1,9 +1,11 @@
 import "../styles/global.css";
 import Logo from "../assets/favicon.png";
+
 import SearchField from "../components/SearchField/SearchField";
 import TrafficIncidents from "../components/TrafficIncidents/TrafficIncidents";
 import Weather from "../components/Weather/Weather";
 import Departures from "../components/Departures/Departures";
+import Map from "../components/Map/Map";
 
 const Dashboard = () => {
   return (
@@ -28,7 +30,7 @@ const Dashboard = () => {
       </div>
 
       <div className="section-two">
-        {/* <OptionalComponent title="IMPACT" /> */}
+        <Map />
         <TrafficIncidents title="TRAFIC INCIDENTS" />
       </div>
     </div>
