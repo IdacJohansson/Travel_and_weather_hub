@@ -16,6 +16,7 @@ const WEATHER_API_URL = process.env.WEATHER_API_URL;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const RESROBOT_NEARBYSTOPS_URL = process.env.RESROBOT_API_URL_NEARBYSTOPS;
 const RESROBOT_API_URL_DEPARTURES = process.env.RESROBOT_API_URL_DEPARTURES;
+const RESROBOT_API_URL_ARRIVAL = process.env.RESROBOT_API_URL_ARRIVAL;
 const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
 
 app.get("/api/geocode", async (req, res) => {
@@ -93,6 +94,40 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
+app.get("/departure-board", async (req, res) => {
+  try {
+    const response = await axios.get(RESROBOT_API_URL_DEPARTURES, {
+      params: {
+        id: "740000001",
+        maxJourneys: 3,
+        passlist: true,
+        format: "json",
+        accessId: RESROBOT_API_KEY,
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Departure board API error:", err);
+  }
+});
+
+app.get("/arrival-board", async (req, res) => {
+  try {
+    const response = await axios.get(RESROBOT_API_URL_ARRIVAL, {
+      params: {
+        id: "740000001",
+        maxJourneys: 3,
+        passlist: true,
+        format: "json",
+        accessId: RESROBOT_API_KEY,
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Arrival board API error:", err);
+  }
+});
+
 app.get("/api/departures", async (req, res) => {
   const { lat, lon } = req.query;
   if (!lat || !lon) return res.status(400).send("Missing coordinates");
@@ -115,6 +150,7 @@ app.get("/api/departures", async (req, res) => {
       params: {
         id: extId,
         maxJourneys: 3,
+        passlist: true,
         format: "json",
         accessId: RESROBOT_API_KEY,
       },
@@ -133,12 +169,51 @@ app.get("/api/departures", async (req, res) => {
       name: dep.Product[0]?.name || dep.name,
       line: dep.Product[0]?.displayNumber || "",
       operator: dep.Product[0]?.operator || "",
-      icon: dep.Product[0]?.icon?.res || "prod_gen",
+      icon: dep.Product[0]?.icon?.res || "prod_ferry",
     }));
+
+    const arrivalsResponse = await axios.get(RESROBOT_API_URL_ARRIVAL, {
+      params: {
+        id: extId,
+        maxJourneys: 3,
+        passlist: true,
+        format: "json",
+        accessId: process.env.RESROBOT_API_KEY,
+      },
+    });
+    if (!arrivalsResponse.data.Arrival) {
+      return res.status(404).send("No arrivals found for this stop");
+    }
+
+    const newArrivals =
+      arrivalsResponse.data.Arrival?.map((arr) => ({
+        time: arr.time,
+        date: arr.date,
+        rtTime: arr.rtTime,
+        rtDate: arr.rtDate,
+        stop: arr.stop,
+        stopExtId: arr.stopExtId,
+        direction: arr.direction,
+        name: arr.Product?.[0]?.name || arr.name,
+        operator: arr.Product?.[0]?.operator || "",
+        Stops:
+          arr.Stops && Array.isArray(arr.Stops.Stop)
+            ? arr.Stops.Stop.map((s) => ({
+                name: s.name,
+                arrTime: s.arrTime || s.depTime || null,
+                arrDate: s.arrDate || s.depDate || null,
+                lat: s.lat,
+                lon: s.lon,
+                extId: s.extId,
+                routeIdx: s.routeIdx,
+              }))
+            : [],
+      })) || [];
 
     res.json({
       nearbyStop: stop,
       departures: newDepartures,
+      arrivals: newArrivals,
     });
   } catch (err) {
     console.error("Departures API error:", err);

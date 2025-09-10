@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useLocationStore } from "../../store/useLocationStore";
 import { useTrafficIncidentStore } from "../../store/useTrafficIncidentStore";
 
-import TrafficImage from "../TrafficImage";
 import CarImg from "../../assets/white-car.png";
+import Map from "../Map/Map";
 
 type CardProps = {
   title: string;
@@ -54,8 +54,8 @@ const TrafficIncidents = ({ title }: CardProps) => {
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-center w-1/4 p-4 bg-onyx rounded-r-2xl">
-              <TrafficImage />
+            <div className="flex items-center justify-center w-1/2 p-4 bg-onyx rounded-r-2xl">
+              <Map />
             </div>
           </div>
         </div>

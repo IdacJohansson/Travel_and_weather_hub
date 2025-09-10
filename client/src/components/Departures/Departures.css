@@ -1,7 +1,10 @@
 @import "tailwindcss";
+@plugin "daisyui";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 .departure-container {
-  @apply flex w-[860px] h-[300px] border border-white text-white rounded-2xl;
+  @apply flex-col w-[960px] h-[300px] rounded-2xl;
 }
 
 .departure-wrapper {
