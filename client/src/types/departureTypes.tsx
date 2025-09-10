@@ -11,7 +11,21 @@ export interface DepartureInterface {
    icon: string;
 }
 
+export interface ArrivalsInterface extends DepartureInterface {
+  rtTime: string;
+  rtDate: string;
+  Stops: {
+    name: string;
+    arrTime: string;
+    arrDate: string;
+    depTime: string;
+    depDate: string;
+    track: string;
+  }[];
+}
+
 export interface DepartureState {
   departureUpdates: DepartureInterface[];
+  arrivalsUpdates: ArrivalsInterface[];
   fetchDepartures: () => Promise<void>;
 }
