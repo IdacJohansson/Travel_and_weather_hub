@@ -94,40 +94,6 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
-app.get("/departure-board", async (req, res) => {
-  try {
-    const response = await axios.get(RESROBOT_API_URL_DEPARTURES, {
-      params: {
-        id: "740000001",
-        maxJourneys: 3,
-        passlist: true,
-        format: "json",
-        accessId: RESROBOT_API_KEY,
-      },
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error("Departure board API error:", err);
-  }
-});
-
-app.get("/arrival-board", async (req, res) => {
-  try {
-    const response = await axios.get(RESROBOT_API_URL_ARRIVAL, {
-      params: {
-        id: "740000001",
-        maxJourneys: 3,
-        passlist: true,
-        format: "json",
-        accessId: RESROBOT_API_KEY,
-      },
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error("Arrival board API error:", err);
-  }
-});
-
 app.get("/api/departures", async (req, res) => {
   const { lat, lon } = req.query;
   if (!lat || !lon) return res.status(400).send("Missing coordinates");

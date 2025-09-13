@@ -1,36 +1,21 @@
 import "../styles/global.css";
-import Logo from "../assets/favicon.png";
-
-import SearchField from "../components/SearchField/SearchField";
 import TrafficIncidents from "../components/TrafficIncidents/TrafficIncidents";
 import Weather from "../components/Weather/Weather";
 import Departures from "../components/Departures/Departures";
-// import Map from "../components/Map/Map";
+import Header from "../components/Header/Header";
 
 const Dashboard = () => {
   return (
     <div className="main-container">
-      <header className="header">
-        <div className="header-wrapper">
-          <img className="logo" src={Logo} alt="" />
-          <h1 className="header-title">Local Travel & Weather Dashboard</h1>
-        </div>
-        <div className="search-container">
-          <SearchField />
-        </div>
-      </header>
-
+      <Header />
       <div className="section-one">
-        <div className="section-one-wrapper">
-          <div className="card">
-            <div className="card-content"><Departures title="DEPARTURES" /></div>
-          </div>
+        <div className="card-content">
+          <Weather />
+          <Departures title="DEPARTURES" />
         </div>
-        <Weather/>
       </div>
-
+      <div className="divider w-[1400px] mx-auto my-0 py-0 min-h-0"></div>
       <div className="section-two">
-        {/* <Map /> */}
         <TrafficIncidents title="TRAFIC INCIDENTS" />
       </div>
     </div>

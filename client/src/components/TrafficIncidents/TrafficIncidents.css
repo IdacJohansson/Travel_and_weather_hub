@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+.incident-container {
+  @apply flex w-[1420px];
+}
+
+.incident-wrapper {
+  @apply flex w-full h-[370px] bg-gray-700 text-white rounded-2xl;
+}
+
+.content-container {
+  @apply flex w-full;
+}
+
+.content-wrapper {
+  @apply flex-1 p-4 text-xs;
+}
+
+.incident-content {
+  @apply flex-1 p-3 text-xs;
+}
+
+.incident-title {
+  @apply text-lg font-bold text-center text-white;
+}
+
+.content-position {
+  @apply mt-5 mb-2 pb-2;
+}
+
+.incident-header {
+  @apply flex items-center justify-between h-8 px-4 bg-gray-600 rounded-l;
+}
+
+.text-message-code {
+  @apply font-bold;
+}
+
+.severity-text {
+  @apply flex gap-4;
+}
+
+.text-message {
+  @apply px-4 mt-2 text-left;
+}
+
+.text-location {
+  @apply flex mt-1 font-bold;
+}

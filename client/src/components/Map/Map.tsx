@@ -10,7 +10,7 @@ const MapUpdater = ({ center }: { center: LatLngExpression }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, 8); 
+    map.setView(center, 8);
   }, [center, map]);
   return null;
 };
@@ -28,7 +28,7 @@ const Map = () => {
     <MapContainer
       center={center}
       scrollWheelZoom={false}
-      className="w-[400px] h-[400px] rounded-xl text-white text-center p-4"
+      className="leaflet-container"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
