@@ -35,10 +35,7 @@ const Departures = ({ title }: CardProps) => {
           <h2 className="departure-title">{title}</h2>
 
           {departureUpdates.map((update, index) => (
-            <div
-              key={index}
-              className="departure-collapse"
-            >
+            <div key={index} className="departure-collapse">
               <input type="radio" name="my-accordion-1" />
               <div className="departure-collapse-title">
                 <div className="departure-arrow-icon-and-text-container">
