@@ -10,8 +10,9 @@ const SearchField = () => {
   const { fetchTrafficIncidents } = useTrafficIncidentStore();
   const { fetchWeatherByLocation } = useWeatherStore();
   const { fetchDepartures } = useDepartureStore();
-  const { location, setLocation, address, setAddress } = useLocationStore();
+  const { location, setLocation, setAddress } = useLocationStore();
   const [query, setQuery] = useState("");
+  const [isBgChange, setIsBgChange] = useState(false);
 
   const URL = import.meta.env.VITE_GEO_URL || GEO_URL;
 
@@ -21,9 +22,15 @@ const SearchField = () => {
       fetchWeatherByLocation();
       fetchDepartures();
     }
-  }, [location, fetchTrafficIncidents, fetchWeatherByLocation, fetchDepartures]);
+  }, [
+    location,
+    fetchTrafficIncidents,
+    fetchWeatherByLocation,
+    fetchDepartures,
+  ]);
 
   const handleSearch = async () => {
+    setIsBgChange(true);
     if (!query.trim()) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -55,7 +62,13 @@ const SearchField = () => {
   };
 
   return (
-    <div className="main-container">
+    <div
+      className={`main-container h-screen w-full ${
+        isBgChange
+          ? "bg-black"
+          : "bg-[url('/transportation.png')] bg-center bg-auto bg-no-repeat"
+      }`}
+    >
       <div className="search-container">
         <input
           type="text"
@@ -65,7 +78,7 @@ const SearchField = () => {
           className="input-field"
         />
         <button onClick={handleSearch} className="search-btn">
-          Sök
+          Search
         </button>
       </div>
     </div>

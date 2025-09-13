@@ -39,7 +39,7 @@ export const useDepartureStore = create<DepartureState>()((set): any => {
 
       const arrivals = data.arrivals || [];
       const extractedArrivals: ArrivalsInterface[] = arrivals
-        .slice(0, 5)
+        .slice(0, 4)
         .map((arr: any) => ({
           name: arr.name,
           line: arr.line,

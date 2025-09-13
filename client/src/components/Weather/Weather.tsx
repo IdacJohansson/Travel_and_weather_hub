@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import "../Weather/Weather.css";
+import { useEffect, useState } from "react";
 import { useLocationStore } from "../../store/useLocationStore";
 import { useWeatherStore } from "../../store/useWeatherStore";
-
-import WeatherImg from "../../assets/white-lightning.png";
 
 const Weather = () => {
   const { weather, loading, error, fetchWeatherByLocation } = useWeatherStore();
   const { location } = useLocationStore();
+  const [temp, setTemp] = useState<number | null>(null);
 
   useEffect(() => {
     if (location) {
@@ -14,37 +14,54 @@ const Weather = () => {
     }
   }, [location]);
 
-  return (
-    <div className="text-black rounded-2xl flex gap-4 w-[510px] h-[300px]">
-      {loading && <p className="text-white">Loading weather...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+  useEffect(() => {
+    if (weather && weather.main && weather.main.temp) {
+      setTemp(weather.main.temp);
+    }
+  }, [weather]);
 
-      {weather ? (
-        <div className="flex border-white border-1 text-white text-center rounded-2xl p-4 w-[510px] h-[300px]">
-          <div className="text-white flex-col justify-between items-center px-4 h-[170px]">
-            <h2 className="text-xl">
-              <span className="font-bold text-left">WEATHER IN:</span>{" "}
-              {weather.name}
+  const getTempIcon = (t: number) => {
+    if (t <= 5) {
+      return <i className="bi bi-thermometer-snow"></i>;
+    } else if (t > 18) {
+      return <i className="bi bi-thermometer-sun"></i>;
+    } else {
+      return <i className="bi bi-thermometer-half"></i>;
+    }
+  };
+
+  return (
+    <div className="weather-container">
+      {loading && <p className="text-loading">Loading weather...</p>}
+      {error && <p className="text-error">Error: {error}</p>}
+
+      {weather && (
+        <div className="weather-wrapper">
+          <div className="weather-content">
+            <h2 className="text-h2">
+              <span className="text-city">Weather in:</span> {weather.name}
             </h2>
 
-            <div className="flex justify-center text-center gap-4 mt-4">
-              <div className="bg-onyx rounded-2xl flex flex-col gap-2 items-center justify-center w-[220px] h-[200px]">
-                <div className="text-5xl">🌡️</div>
-                <div className="mt-3">
+            <div className="content-wrapper">
+              <div className="temp-card">
+                <div className="temp-icon">
+                  {getTempIcon(weather.main.temp)}
+                </div>
+                <div className="temp-text-container">
                   <p>
-                    <span className="font-bold">Temperature:</span>{" "}
+                    <span className="temp-text">Temperature:</span>{" "}
                     {weather.main.temp}°C
                   </p>
                 </div>
               </div>
-              <div className="bg-onyx rounded-2xl flex flex-col gap-2 items-center justify-center w-[220px] h-[200px]">
+              <div className="description-card">
                 <p>
-                  <span className="font-bold">Condition:</span>{" "}
+                  <span className="description-text">Condition:</span>{" "}
                   {weather.weather[0].description}
                 </p>
-                <div className="flex items-center justify-center">
+                <div className="description-icon-container">
                   <img
-                    className="w-[90px] h-[90px]"
+                    className="description-icon"
                     src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
                     alt="weather icon"
                   />
@@ -53,17 +70,7 @@ const Weather = () => {
             </div>
           </div>
         </div>
-      ) : !loading ? (
-        <div className="text-white rounded-2xl flex gap-4 w-[510px] h-[170px]">
-          <div className="flex-1 bg-onyx flex justify-center items-center h-[250px] rounded-2xl mt-2">
-            <img
-              className="w-1/3 animate-pulse"
-              src={WeatherImg}
-              alt="loading weather"
-            />
-          </div>
-        </div>
-      ) : null}
+      )}
     </div>
   );
 };

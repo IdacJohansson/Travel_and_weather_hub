@@ -1,1 +1,69 @@
 @import "tailwindcss";
+
+.weather-container {
+  @apply rounded-lg flex w-[500px] h-[330px];
+}
+
+.text-loading {
+  @apply text-white;
+}
+
+.text-error {
+  @apply text-red-500;
+}
+
+.weather-wrapper {
+  @apply bg-[url('/sun.png')] bg-auto bg-right-bottom bg-no-repeat flex text-white text-center rounded-2xl p-2 w-[500px] h-[330px];
+}
+
+.weather-content {
+  @apply text-white flex-col items-center h-[170px];
+}
+
+.text-h2 {
+  @apply text-xl mt-5 text-black;
+}
+
+.text-city {
+  @apply text-left;
+}
+
+.content-wrapper {
+  @apply flex mt-4 space-x-2;
+}
+
+/*Temp*/
+
+.temp-card {
+  @apply rounded-2xl flex flex-col gap-1 items-center justify-center w-[220px] h-[200px] bg-gray-700;
+}
+
+.temp-icon {
+  @apply text-5xl;
+}
+
+.temp-text-container {
+  @apply mt-3;
+}
+
+.temp-text {
+  @apply text-sm font-bold;
+}
+
+/*Condition/description*/
+
+.description-card {
+  @apply rounded-2xl flex flex-col gap-1 items-center justify-center w-[220px] h-[200px] bg-gray-700;
+}
+
+.description-text {
+  @apply text-sm font-bold;
+}
+
+.description-icon-container {
+  @apply flex items-center justify-center;
+}
+
+.description-icon {
+  @apply w-[100px] h-[100px];
+}

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
+import "../TrafficIncidents/TrafficIncidents.css";
 
 import { useLocationStore } from "../../store/useLocationStore";
 import { useTrafficIncidentStore } from "../../store/useTrafficIncidentStore";
 
-import CarImg from "../../assets/white-car.png";
 import Map from "../Map/Map";
 
 type CardProps = {
@@ -22,31 +22,31 @@ const TrafficIncidents = ({ title }: CardProps) => {
   }, [location]);
 
   return (
-    <div>
-      {trafficUpdates.length > 0 ? (
-        <div className="flex w-full max-w-5xl h-[25rem] border-white border-1 text-white rounded-2xl">
-          <div className="flex w-full">
-            <div className="flex-1 p-4 text-xs">
-              <h2 className="text-lg font-bold text-center text-white">
-                {title}
-              </h2>
+    <div className="incident-container">
+      {trafficUpdates.length > 0 && (
+        <div className="incident-wrapper">
+          <div className="content-container">
+            <div className="incident-content">
+              <h2 className="incident-title">{title}</h2>
 
               {trafficUpdates.map((update, index) => (
-                <div key={index} className="mt-5 mb-2 pb-2">
-                  <div className="flex items-center justify-between h-8 px-4 bg-onyx">
-                    <p className="font-bold">{update.MessageCode}</p>
-                    <div className="flex gap-4">
+                <div key={index} className="content-position">
+                  <div className="incident-header">
+                    <p className="text-message-code">{update.MessageCode}</p>
+                    <div className="severity-text">
                       <p className={getSeverityColor(update.SeverityText)}>
                         {update.SeverityText}
                       </p>
                       <p>{new Date(update.CreationTime).toLocaleString()}</p>
                     </div>
                   </div>
-                  <div className="px-4 mt-2 text-left">
-                    <p>{update.Message}</p>
-                    <div className="flex mt-1">
+                  <div className="text-message">
+                    <i>{update.Message}</i>
+                    <div className="text-location">
                       <p>
-                        <span className="font-bold">Plats: </span>
+                        <span>
+                          <i className="bi bi-geo-alt-fill"></i>{" "}
+                        </span>
                         {update.LocationDescriptor}
                       </p>
                     </div>
@@ -54,23 +54,7 @@ const TrafficIncidents = ({ title }: CardProps) => {
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-center w-1/2 p-4 bg-onyx rounded-r-2xl">
-              <Map />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="flex w-full max-w-5xl h-[25rem] gap-4 p-4 text-white bg-raisinBlack rounded-2xl">
-          <div className="flex items-center justify-center flex-1 p-2 bg-onyx rounded-2xl">
-            <div className="mb-4 pb-2">
-              <div className="flex items-center justify-center h-20">
-                <img
-                  className="w-1/3 animate-pulse"
-                  src={CarImg}
-                  alt="car-image"
-                />
-              </div>
-            </div>
+            <Map />
           </div>
         </div>
       )}
