@@ -7,6 +7,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
+// const PORT = process.env.PORT;
 const GEO_KEY = process.env.GEO_KEY;
 const GEO_URL = process.env.GEO_URL;
 const TRAFFIC_API_URL = process.env.TRAFFIC_API_URL;
@@ -18,7 +19,7 @@ const RESROBOT_API_URL_DEPARTURES = process.env.RESROBOT_API_URL_DEPARTURES;
 const RESROBOT_API_URL_ARRIVAL = process.env.RESROBOT_API_URL_ARRIVAL;
 const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
 
-app.get("/api/geocode", async (req, res) => {
+app.get("/geocode", async (req, res) => {
   const { q } = req.query;
   if (!q) return res.status(400).json({ error: "Missing query" });
 
@@ -73,7 +74,7 @@ app.get("/traffic-situations", async (req, res) => {
   }
 });
 
-app.get("/api/weather", async (req, res) => {
+app.get("/weather", async (req, res) => {
   const { lat, lon } = req.query;
   if (!lat || !lon) return res.status(400).send("Missing coordinates");
 
@@ -186,3 +187,8 @@ app.get("/departures", async (req, res) => {
   }
 });
 
+export default app;
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port: ${PORT}`);
+// });

@@ -47,7 +47,6 @@ const SearchField = () => {
       const response = await fetch(`${URL}?q=${encodeURIComponent(query)}`);
 
       const data = await response.json();
-      console.log(data);
 
       if (data?.results?.length > 0) {
         const { lat, lng } = data.results[0].geometry.location;

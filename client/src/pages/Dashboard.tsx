@@ -14,7 +14,6 @@ const Dashboard = () => {
           <Departures title="DEPARTURES" />
         </div>
       </div>
-      <div className="divider w-[1400px] mx-auto my-0 py-0 min-h-0"></div>
       <div className="section-two">
         <TrafficIncidents title="TRAFIC INCIDENTS" />
       </div>
