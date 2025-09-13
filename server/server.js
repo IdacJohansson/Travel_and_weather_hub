@@ -7,7 +7,6 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
-const PORT = process.env.PORT;
 const GEO_KEY = process.env.GEO_KEY;
 const GEO_URL = process.env.GEO_URL;
 const TRAFFIC_API_URL = process.env.TRAFFIC_API_URL;
@@ -35,7 +34,7 @@ app.get("/api/geocode", async (req, res) => {
   }
 });
 
-app.get("/api/traffic-situations", async (req, res) => {
+app.get("/traffic-situations", async (req, res) => {
   const { latitude, longitude } = req.query;
   if (!latitude || !longitude) {
     return res.status(400).send("Missing latitude or longitude parameters");
@@ -94,7 +93,7 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
-app.get("/api/departures", async (req, res) => {
+app.get("/departures", async (req, res) => {
   const { lat, lon } = req.query;
   if (!lat || !lon) return res.status(400).send("Missing coordinates");
   try {
@@ -187,6 +186,3 @@ app.get("/api/departures", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`);
-});
