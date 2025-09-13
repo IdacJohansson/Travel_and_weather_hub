@@ -1,12 +1,11 @@
 import "../Weather/Weather.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocationStore } from "../../store/useLocationStore";
 import { useWeatherStore } from "../../store/useWeatherStore";
 
 const Weather = () => {
   const { weather, loading, error, fetchWeatherByLocation } = useWeatherStore();
   const { location } = useLocationStore();
-  const [temp, setTemp] = useState<number | null>(null);
 
   useEffect(() => {
     if (location) {
@@ -14,11 +13,7 @@ const Weather = () => {
     }
   }, [location]);
 
-  useEffect(() => {
-    if (weather && weather.main && weather.main.temp) {
-      setTemp(weather.main.temp);
-    }
-  }, [weather]);
+  const temp = weather?.main?.temp;
 
   const getTempIcon = (t: number) => {
     if (t <= 5) {
@@ -45,7 +40,7 @@ const Weather = () => {
             <div className="content-wrapper">
               <div className="temp-card">
                 <div className="temp-icon">
-                  {getTempIcon(weather.main.temp)}
+                  {temp !== undefined && getTempIcon(temp)}
                 </div>
                 <div className="temp-text-container">
                   <p>
