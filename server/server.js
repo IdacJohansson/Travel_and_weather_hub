@@ -19,7 +19,7 @@ const RESROBOT_API_URL_DEPARTURES = process.env.RESROBOT_API_URL_DEPARTURES;
 const RESROBOT_API_URL_ARRIVAL = process.env.RESROBOT_API_URL_ARRIVAL;
 const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
 
-app.get("/geocode", async (req, res) => {
+app.get("/api/geocode", async (req, res) => {
   const { q } = req.query;
   if (!q) return res.status(400).json({ error: "Missing query" });
 
@@ -35,7 +35,7 @@ app.get("/geocode", async (req, res) => {
   }
 });
 
-app.get("/traffic-situations", async (req, res) => {
+app.get("/api/traffic-situations", async (req, res) => {
   const { latitude, longitude } = req.query;
   if (!latitude || !longitude) {
     return res.status(400).send("Missing latitude or longitude parameters");
@@ -94,7 +94,7 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
-app.get("/departures", async (req, res) => {
+app.get("/api/departures", async (req, res) => {
   const { lat, lon } = req.query;
   if (!lat || !lon) return res.status(400).send("Missing coordinates");
   try {
