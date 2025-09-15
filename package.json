@@ -1,0 +1,30 @@
+{
+  "name": "travel_and_weather_hub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm install && npm run build",
+    "dev": "vercel dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IdacJohansson/Travel_and_weather_hub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/IdacJohansson/Travel_and_weather_hub/issues"
+  },
+  "homepage": "https://github.com/IdacJohansson/Travel_and_weather_hub#readme",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "serverless-http": "^4.0.0"
+  }
+}
