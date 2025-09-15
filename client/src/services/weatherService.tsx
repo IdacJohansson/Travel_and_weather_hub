@@ -21,9 +21,9 @@ export const fetchWeatherData = async (
       }
 
       const { lat: geoLat, lng } = data.results[0].geometry.location;
-      url = `/.netlify/functions/api/weather?lat=${geoLat}?lat=${geoLat}&lon=${lng}`;
+      url = `api/weather?lat=${geoLat}?lat=${geoLat}&lon=${lng}`;
     } else if (lat && lon) {
-      url = `/.netlify/functions/api/weather?lat=${lat}&lon=${lon}`;
+      url = `api/weather?lat=${lat}&lon=${lon}`;
     } else {
       throw new Error("No city or coordinates was specified");
     }
