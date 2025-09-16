@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import type { LatLngExpression } from "leaflet";
+import { Icon } from "leaflet";
 import "../Map/Map.css";
 
 import { useLocationStore } from "../../store/useLocationStore";
@@ -40,7 +41,11 @@ const Map = () => {
       {trafficUpdates
         .filter((item) => item.lat && item.lon)
         .map((incident, id) => (
-          <Marker key={id} position={[incident.lat!, incident.lon!]}>
+          <Marker
+            icon={new Icon({ iconUrl: "/marker.png", iconSize: [25, 41] })}
+            key={id}
+            position={[incident.lat!, incident.lon!]}
+          >
             <Popup>
               <strong>{incident.SeverityText}</strong>
               <br />
